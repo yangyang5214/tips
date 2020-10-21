@@ -3,7 +3,9 @@ from flask import Flask, request, jsonify
 import json
 import redis
 import random
+import requests
 
+session = requests.session()
 redis_pool = redis.ConnectionPool()
 r = redis.Redis(connection_pool=redis_pool)
 
@@ -23,6 +25,7 @@ def get_length():
 key = 'daily_tips'
 key_len = 'daily_tips_len'
 
+biying_url = 'https://cn.bing.com/HPImageArchive.aspx?format=js&idx={}&n=1'
 
 @app.route('/tips', methods=['GET'])
 def daily_tips():
@@ -44,6 +47,12 @@ def daily_cron():
             index = index + 1
     r.set(key_len, index - 1)
     return jsonify({'status': 'success'})
+
+
+@app.route('/img', methods=['GET'])
+def random_img():
+    base_url = session.get(biying_url.format(random.randint(0, 10000))).json()['images'][0]['url']
+    return 'https://cn.bing.com{}'.format(base_url)
 
 
 if __name__ == '__main__':
