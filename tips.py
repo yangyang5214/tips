@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, jsonify
-import json
+import logging
 import redis
 import random
 import requests
+from enum import Enum
+
+logging.basicConfig(level=logging.INFO)
 
 session = requests.session()
 redis_pool = redis.ConnectionPool()
@@ -26,6 +29,7 @@ key = 'daily_tips'
 key_len = 'daily_tips_len'
 
 biying_url = 'https://cn.bing.com/HPImageArchive.aspx?format=js&idx={}&n=1'
+
 
 @app.route('/tips', methods=['GET'])
 def daily_tips():
@@ -51,8 +55,56 @@ def daily_cron():
 
 @app.route('/img', methods=['GET'])
 def random_img():
-    base_url = session.get(biying_url.format(random.randint(0, 10000))).json()['images'][0]['url']
-    return 'https://cn.bing.com{}'.format(base_url)
+    type = request.args.get("type")
+    return jsonify(ImageContext().factory(type).produce().__dict__)
+
+
+class ImageFactory():
+
+    def produce(self):
+        pass
+
+
+class ImageContext():
+
+    @staticmethod
+    def factory(type):
+        if not type or type == ImageSource.BI_YING.value:
+            return BiyingImage()
+        # if type == ImageSource.ZHI_HU.value:
+        #     return ZhihuImage()
+        return BiyingImage()
+
+
+class BiyingImage(ImageFactory):
+
+    def produce(self):
+        url = biying_url.format(random.randint(0, 300))
+        logging.info('url is {}: '.format(url))
+        resp = session.get(url).json()
+        img = resp['images'][0]
+        url = 'https://cn.bing.com{}'.format(img['url'])
+        msg = img['copyright']
+        return ImageResp(url, msg, ImageSource.BI_YING.name)
+
+
+class ZhihuImage(ImageFactory):
+
+    def produce(self):
+        return ''
+
+
+class ImageSource(Enum):
+    BI_YING = 0,
+    ZHI_HU = 1,
+
+
+class ImageResp():
+
+    def __init__(self, url, msg, source):
+        self.url = url
+        self.msg = msg
+        self.source = source
 
 
 if __name__ == '__main__':
