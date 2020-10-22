@@ -20,9 +20,11 @@ curl http://116.232.10.46:8700/tips
 |   type | source |
 | :---: |   :---: |
 |   0    |  必应      |
+|   1    |  keep      |
 
 ```
 curl http://116.232.10.46:8700/img?type=0
+curl http://116.232.10.46:8700/img?type=1
 ```
 
 
