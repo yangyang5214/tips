@@ -5,6 +5,7 @@ import redis
 import random
 import requests
 from enum import Enum
+import json
 
 logging.basicConfig(level=logging.INFO)
 
@@ -71,9 +72,9 @@ class ImageContext():
     def factory(type):
         if not type or type == ImageSource.BI_YING.value:
             return BiyingImage()
-        # if type == ImageSource.ZHI_HU.value:
-        #     return ZhihuImage()
-        return BiyingImage()
+        if type == ImageSource.KEEP.value:
+            return KeepImage()
+        return KeepImage()
 
 
 class BiyingImage(ImageFactory):
@@ -88,6 +89,14 @@ class BiyingImage(ImageFactory):
         return ImageResp(url, msg, ImageSource.BI_YING.name)
 
 
+class KeepImage(ImageFactory):
+
+    def produce(self):
+        content = r.srandmember('keep')
+        data = json.loads(content)
+        return ImageResp(data['img'], data['content'], ImageSource.KEEP.name)
+
+
 class ZhihuImage(ImageFactory):
 
     def produce(self):
@@ -97,6 +106,7 @@ class ZhihuImage(ImageFactory):
 class ImageSource(Enum):
     BI_YING = 0,
     ZHI_HU = 1,
+    KEEP = 2,
 
 
 class ImageResp():
