@@ -86,6 +86,11 @@ class BiyingImage(ImageFactory):
         img = resp['images'][0]
         url = 'https://cn.bing.com{}'.format(img['url'])
         msg = img['copyright']
+        data = {
+            'img': url,
+            'content': msg,
+        }
+        r.sadd('biying', json.dumps(data))
         return ImageResp(url, msg, ImageSource.BI_YING.name)
 
 
