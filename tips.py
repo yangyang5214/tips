@@ -6,6 +6,7 @@ import random
 import requests
 from enum import Enum
 import json
+from flask_cors import CORS
 
 logging.basicConfig(level=logging.INFO)
 
@@ -14,6 +15,7 @@ redis_pool = redis.ConnectionPool()
 r = redis.Redis(connection_pool=redis_pool)
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 path = 'daily_tips.csv'
 
