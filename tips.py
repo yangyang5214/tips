@@ -7,6 +7,7 @@ import requests
 from enum import Enum
 import json
 from flask_cors import CORS
+import uuid
 
 logging.basicConfig(level=logging.INFO)
 
@@ -54,6 +55,11 @@ def daily_cron():
             index = index + 1
     r.set(key_len, index - 1)
     return jsonify({'status': 'success'})
+
+
+@app.route('/jrebel', methods=['GET'])
+def jrebel_code():
+    return 'https://jrebel.hexianwei.com/' + str(uuid.uuid4())
 
 
 @app.route('/img', methods=['GET'])
