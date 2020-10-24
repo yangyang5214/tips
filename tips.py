@@ -12,7 +12,7 @@ import uuid
 logging.basicConfig(level=logging.INFO)
 
 session = requests.session()
-redis_pool = redis.ConnectionPool('192.168.31.158')
+redis_pool = redis.ConnectionPool(host='192.168.31.158')
 r = redis.Redis(connection_pool=redis_pool)
 
 app = Flask(__name__)
@@ -78,6 +78,7 @@ class ImageContext():
 
     @staticmethod
     def factory(type):
+        type = int(type)
         if not type or type == ImageSource.BI_YING.value:
             return BiyingImage()
         if type == ImageSource.KEEP.value:
@@ -129,7 +130,7 @@ class ImageSource(Enum):
 class ImageResp():
 
     def __init__(self, url, msg, source):
-        self.url = url if isinstance(url, list) else list[url]
+        self.url = url if isinstance(url, list) else [url]
         self.msg = msg
         self.source = source
 
