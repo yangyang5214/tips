@@ -65,7 +65,11 @@ def jrebel_code():
 @app.route('/img', methods=['GET'])
 def random_img():
     type = request.args.get("type")
-    return jsonify(ImageContext().factory(type).produce().__dict__)
+    result = ImageContext().factory(type).produce()
+    if result:
+        return jsonify(result.__dict__)
+    else:
+        return jsonify({"msg": "服务器错误"})
 
 
 class ImageFactory():
@@ -79,11 +83,11 @@ class ImageContext():
     @staticmethod
     def factory(type):
         type = int(type)
-        if not type or type == ImageSource.BI_YING.value:
+        if not type or type == ImageSource.BI_YING.value[0]:
             return BiyingImage()
-        if type == ImageSource.KEEP.value:
+        if type == ImageSource.KEEP.value[0]:
             return KeepImage()
-        if type == ImageSource.ZHI_HU.value:
+        if type == ImageSource.ZHI_HU.value[0]:
             return ZhihuImage()
         return ZhihuImage()
 
@@ -117,6 +121,8 @@ class ZhihuImage(ImageFactory):
 
     def produce(self):
         content = r.srandmember('zhihu')
+        if not content:
+            return
         data = json.loads(content)
         return ImageResp(data['img'], data['content'], ImageSource.ZHI_HU.name)
 
