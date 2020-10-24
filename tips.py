@@ -12,7 +12,7 @@ import uuid
 logging.basicConfig(level=logging.INFO)
 
 session = requests.session()
-redis_pool = redis.ConnectionPool(host='192.168.31.158')
+redis_pool = redis.ConnectionPool()
 r = redis.Redis(connection_pool=redis_pool)
 
 app = Flask(__name__)
