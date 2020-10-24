@@ -2,4 +2,4 @@ grep -C  打印匹配到文档的上下文。 print NUM lines of output context
 grep -i  忽略大小写。ignore case distinctions
 curl https://xxx.json | jq .product_listings[0].available.  json 可视化
 document.oncontextmenu=new Function("return false");   右键失效
-
+pip install --target 'dir' 安装到指定目录。如果一直 import 失败，可以试试
