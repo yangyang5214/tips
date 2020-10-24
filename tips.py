@@ -82,7 +82,9 @@ class ImageContext():
             return BiyingImage()
         if type == ImageSource.KEEP.value:
             return KeepImage()
-        return KeepImage()
+        if type == ImageSource.ZHI_HU.value:
+            return ZhihuImage()
+        return ZhihuImage()
 
 
 class BiyingImage(ImageFactory):
@@ -113,7 +115,9 @@ class KeepImage(ImageFactory):
 class ZhihuImage(ImageFactory):
 
     def produce(self):
-        return ''
+        content = r.srandmember('zhihu')
+        data = json.loads(content)
+        return ImageResp(data['img'], data['content'], ImageSource.ZHI_HU.name)
 
 
 class ImageSource(Enum):
@@ -125,7 +129,7 @@ class ImageSource(Enum):
 class ImageResp():
 
     def __init__(self, url, msg, source):
-        self.url = url
+        self.url = url if isinstance(url, list) else list[url]
         self.msg = msg
         self.source = source
 
