@@ -4,3 +4,5 @@ curl https://xxx.json | jq .product_listings[0].available.  json 可视化
 document.oncontextmenu=new Function("return false");   右键失效
 pip install --target 'dir' 安装到指定目录。如果一直 import 失败，可以试试
 cmd + shift + r  chrom 强制刷新页面
+https://crontab.guru/  The quick and simple editor for cron schedule expressions by Cronitor 强烈推荐
+
