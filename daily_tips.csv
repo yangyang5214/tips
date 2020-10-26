@@ -5,4 +5,5 @@ document.oncontextmenu=new Function("return false");   右键失效
 pip install --target 'dir' 安装到指定目录。如果一直 import 失败，可以试试
 cmd + shift + r  chrom 强制刷新页面
 https://crontab.guru/  The quick and simple editor for cron schedule expressions by Cronitor 强烈推荐
-
+RANDOMKEY  redis 随机返回一个key
+DBSIZE  当前 redis 的key length
