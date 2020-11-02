@@ -8,3 +8,4 @@ https://crontab.guru/  The quick and simple editor for cron schedule expression
 RANDOMKEY  redis 随机返回一个key
 DBSIZE  当前 redis 的key length
 FLUSHDB 清除当前DB
+os.path.join 代替 + 
