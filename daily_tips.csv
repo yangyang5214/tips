@@ -9,3 +9,4 @@ RANDOMKEY  redis 随机返回一个key
 DBSIZE  当前 redis 的key length
 FLUSHDB 清除当前DB
 os.path.join 代替 + 
+chrome://settings/searchEngines  add a new search engine 好东西，效率提升100倍
