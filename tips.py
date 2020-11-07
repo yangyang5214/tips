@@ -116,6 +116,8 @@ def get_url_params():
     url = data.get('url')
     if not url:
         return {}
+    if not url.startswith('http'):
+        url = 'http://www.fake.com?' + url
     url_parts = list(urlparse.urlparse(url))
     return dict(urlparse.parse_qsl(url_parts[4]))
 
