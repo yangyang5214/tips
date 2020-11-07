@@ -8,6 +8,7 @@ from enum import Enum
 import json
 from flask_cors import CORS
 import uuid
+from urllib import parse as urlparse
 
 logging.basicConfig(level=logging.INFO)
 
@@ -108,6 +109,15 @@ class BiyingImage(ImageFactory):
         r.sadd('biying', json.dumps(data))
         return ImageResp(url, msg, ImageSource.BI_YING.name)
 
+
+@app.route('/urlparams', methods=['POST'])
+def get_url_params():
+    data = request.get_json()
+    url = data.get('url')
+    if not url:
+        return {}
+    url_parts = list(urlparse.urlparse(url))
+    return dict(urlparse.parse_qsl(url_parts[4]))
 
 class KeepImage(ImageFactory):
 
