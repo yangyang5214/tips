@@ -11,3 +11,4 @@ FLUSHDB 清除当前DB
 os.path.join 代替 + 
 chrome://settings/searchEngines  add a new search engine 好东西，效率提升100倍
 idea copy reference.  反过来操作 双击 shift 贴进去
+zfill 补0   '1'.zfill(2) => 01
