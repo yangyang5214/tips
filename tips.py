@@ -75,7 +75,7 @@ def random_img():
 
 
 @app.route('/delete', methods=['GET'])
-def random_img():
+def delete_maomi():
     _id = request.args.get("id")
     path = '/home/pi/sda1/final/'
     os.system('rm {}.mp4'.format(path + _id))
