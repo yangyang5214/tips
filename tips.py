@@ -37,6 +37,11 @@ key_len = 'daily_tips_len'
 biying_url = 'https://cn.bing.com/HPImageArchive.aspx?format=js&idx={}&n=1'
 
 
+@app.route('/about', methods=['GET'])
+def about():
+    return "beer tips!"
+
+
 @app.route('/tips', methods=['GET'])
 def daily_tips():
     length = r.get(key_len)
@@ -79,6 +84,7 @@ def delete_maomi():
     _id = request.args.get("id")
     path = '/home/pi/sda1/final/'
     os.system('rm {}.mp4'.format(path + _id))
+    return "success"
 
 
 class ImageFactory():
