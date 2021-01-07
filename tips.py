@@ -9,6 +9,7 @@ import json
 from flask_cors import CORS
 import uuid
 from urllib import parse as urlparse
+import os
 
 logging.basicConfig(level=logging.INFO)
 
@@ -71,6 +72,13 @@ def random_img():
         return jsonify(result.__dict__)
     else:
         return jsonify({"msg": "服务器错误"})
+
+
+@app.route('/delete', methods=['GET'])
+def random_img():
+    _id = request.args.get("id")
+    path = '/home/pi/sda1/final/'
+    os.system('rm {}.mp4'.format(path + _id))
 
 
 class ImageFactory():
