@@ -1,0 +1,17 @@
+[Unit]
+Description=tips service
+After=network.target
+StartLimitInterval=0
+
+[Service]
+User=pi
+WorkingDirectory=/opt/tips
+Type=forking         
+Restart=always
+RestartSec=1
+ExecStart=/usr/local/bin/tips.sh start
+ExecStop=/usr/local/bin/tips.sh stop
+ExecReload=/usr/local/bin/tips.sh reload
+                         
+[Install]                
+WantedBy=multi-user.target
