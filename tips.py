@@ -48,7 +48,7 @@ def english_words():
     if not os.path.exists(base_dir):
         return "Not Found!"
     list_file = os.listdir(base_dir)
-    random_file = list_file[random.randrange(len(list_file) - 1)]
+    random_file = list_file[random.randrange(len(list_file))]
     r = []
     with open(os.path.join(base_dir, random_file)) as f:
         for line in f.readlines():
