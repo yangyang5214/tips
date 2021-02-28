@@ -42,6 +42,20 @@ def about():
     return "beer tips!"
 
 
+@app.route('/word/english', methods=['GET'])
+def english_words():
+    base_dir = '/home/pi/code/note/english-words'
+    if not os.path.exists(base_dir):
+        return "Not Found!"
+    list_file = os.listdir(base_dir)
+    random_file = list_file[random.randrange(len(list_file) - 1)]
+    r = []
+    with open(os.path.join(base_dir, random_file)) as f:
+        for line in f.readlines():
+            r.append(line)
+    return jsonify(r)
+
+
 @app.route('/tips', methods=['GET'])
 def daily_tips():
     length = r.get(key_len)
