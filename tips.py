@@ -118,6 +118,10 @@ class ImageContext():
             return KeepImage()
         if type == ImageSource.ZHI_HU.value[0]:
             return ZhihuImage()
+        if type == ImageSource.MFW.value[0]:
+            return MfwImage()
+        if type == ImageSource.MEI_PIAN.value[0]:
+            return MeipianImage()
         return ZhihuImage()
 
 
@@ -169,10 +173,32 @@ class ZhihuImage(ImageFactory):
         return ImageResp(data['img'], data['content'], ImageSource.ZHI_HU.name)
 
 
+class MfwImage(ImageFactory):
+
+    def produce(self):
+        content = r.srandmember('mfw')
+        if not content:
+            return
+        data = json.loads(content)
+        return ImageResp(data['img'], data['content'], ImageSource.MFW.name)
+
+
+class MeipianImage(ImageFactory):
+
+    def produce(self):
+        content = r.srandmember('meipian')
+        if not content:
+            return
+        data = json.loads(content)
+        return ImageResp(data['img'], data['content'], ImageSource.MFW.name)
+
+
 class ImageSource(Enum):
     BI_YING = 0,
     ZHI_HU = 1,
     KEEP = 2,
+    MFW = 3,
+    MEI_PIAN = 4,
 
 
 class ImageResp():
